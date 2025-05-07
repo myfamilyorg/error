@@ -1,0 +1,4 @@
+[crate]
+	bin = "error"
+[deps]
+	backtrace = { path = "../backtrace" }
