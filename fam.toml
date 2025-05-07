@@ -1,5 +1,5 @@
 [crate]
 	bin = "error"
 [deps]
-	backtrace = { git = "https://github.com/myfamilyorg/backtrace", rev="f13442514324f7749dc9fa4fc6e6c3978adf454d" }
+	backtrace = { git = "https://github.com/myfamilyorg/backtrace", rev="91905026a9886ab2b6d303b87528b90b7402ad5c" }
 
