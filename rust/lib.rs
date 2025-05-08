@@ -1,7 +1,6 @@
 #![no_std]
 
 extern crate backtrace;
-
 use backtrace::Backtrace;
 
 #[derive(Clone)]
@@ -30,8 +29,4 @@ impl Error {
     pub fn set_bt(&mut self, bt: Backtrace) {
         self.bt = bt;
     }
-}
-
-pub fn real_main(_argc: i32, _argv: *const *const i8) -> i32 {
-    backtrace::backtrace_fn()
 }
