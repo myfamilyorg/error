@@ -2,6 +2,7 @@
 
 extern crate backtrace;
 use backtrace::Backtrace;
+use core::fmt::{Debug, Formatter};
 
 #[derive(Clone)]
 pub struct Error {
@@ -13,6 +14,12 @@ pub struct Error {
 impl PartialEq for Error {
     fn eq(&self, other: &Error) -> bool {
         self.code == other.code
+    }
+}
+
+impl Debug for Error {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), core::fmt::Error> {
+        write!(f, "ErrorKind={}\n{:?}", (self.display)(), self.bt)
     }
 }
 
