@@ -1,0 +1,2 @@
+[deps]
+	backtrace = { rev = "96386a3db42b1ec6fe97d615a39becf7c66a5ac5" }
