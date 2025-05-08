@@ -1,5 +1,9 @@
 #![no_std]
 
+pub mod prelude {
+    pub use super::{define_errors_inner, err, errors, Backtrace, Error};
+}
+
 extern crate backtrace;
 extern crate misc;
 pub use backtrace::Backtrace;
