@@ -2,7 +2,8 @@
 
 extern crate backtrace;
 extern crate misc;
-use backtrace::Backtrace;
+pub use backtrace::Backtrace;
+pub use misc::simple_hash;
 
 #[derive(Clone)]
 pub struct Error {
