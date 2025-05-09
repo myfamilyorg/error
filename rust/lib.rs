@@ -35,6 +35,10 @@ impl Error {
     pub fn set_bt(&mut self, bt: Backtrace) {
         self.bt = bt;
     }
+
+    pub unsafe fn bt_as_ptr(&self) -> *const u8 {
+        self.bt.as_ptr()
+    }
 }
 
 #[macro_export]
