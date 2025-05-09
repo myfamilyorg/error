@@ -77,7 +77,7 @@ macro_rules! define_errors_inner {
 
 impl core::fmt::Debug for Error {
     fn fmt(&self, _: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
-        todo!()
+        loop {}
     }
 }
 
