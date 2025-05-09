@@ -75,18 +75,18 @@ macro_rules! define_errors_inner {
     (@count $index:expr, $file_hash:expr,) => {};
 }
 
+// Test framework requires Debug
+#[cfg(test)]
+impl core::fmt::Debug for Error {
+    fn fmt(&self, _: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
+        todo!()
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
     use crate as error;
-    use core::fmt::Debug;
-    use core::fmt::Formatter;
-
-    impl Debug for Error {
-        fn fmt(&self, _: &mut Formatter<'_>) -> Result<(), core::fmt::Error> {
-            todo!()
-        }
-    }
 
     errors!(TestErr1, TestErr2);
 
