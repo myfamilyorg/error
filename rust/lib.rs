@@ -75,8 +75,6 @@ macro_rules! define_errors_inner {
     (@count $index:expr, $file_hash:expr,) => {};
 }
 
-// Test framework requires Debug
-#[cfg(test)]
 impl core::fmt::Debug for Error {
     fn fmt(&self, _: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
         todo!()
