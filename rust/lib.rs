@@ -53,7 +53,10 @@ macro_rules! err {
 #[macro_export]
 macro_rules! errors {
     ($($error:ident),*) => {
+        #[cfg(not(test))]
         use error::simple_hash;
+        #[cfg(test)]
+        use self::error::simple_hash;
         define_errors_inner!(@count 0, simple_hash(file!(), line!()), $($error),*);
     };
 }
@@ -70,4 +73,38 @@ macro_rules! define_errors_inner {
         define_errors_inner!(@count $index + 1, $file_hash, $($tail),*);
     };
     (@count $index:expr, $file_hash:expr,) => {};
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use crate as error;
+    use core::fmt::Debug;
+    use core::fmt::Formatter;
+
+    impl Debug for Error {
+        fn fmt(&self, _: &mut Formatter<'_>) -> Result<(), core::fmt::Error> {
+            todo!()
+        }
+    }
+
+    errors!(TestErr1, TestErr2);
+
+    #[test]
+    fn test_err1() {
+        let mut bt = Backtrace::init();
+        bt.capture();
+        let e = Error::new(1, || -> &'static str { "test" }, bt);
+        assert_eq!(e.code(), 1);
+    }
+
+    #[test]
+    fn test_err2() {
+        let e1: Result<(), _> = err!(TestErr1);
+        let e2: Result<(), _> = err!(TestErr2);
+        let e3: Result<(), _> = err!(TestErr2);
+
+        assert_ne!(e1.unwrap_err(), e2.clone().unwrap_err());
+        assert_eq!(e3.unwrap_err(), e2.unwrap_err());
+    }
 }
