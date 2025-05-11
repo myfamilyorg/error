@@ -1,13 +1,11 @@
 #![no_std]
 
-pub mod prelude {
-    pub use super::{define_errors_inner, err, errors, Backtrace, Error};
-}
-
-extern crate backtrace;
-extern crate misc;
 pub use backtrace::Backtrace;
 pub use misc::simple_hash;
+
+extern crate backtrace;
+extern crate ffi;
+extern crate misc;
 
 #[derive(Clone)]
 pub struct Error {
@@ -75,9 +73,29 @@ macro_rules! define_errors_inner {
     (@count $index:expr, $file_hash:expr,) => {};
 }
 
+#[cfg(test)]
 impl core::fmt::Debug for Error {
-    fn fmt(&self, _: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
-        loop {}
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
+        use core::slice::from_raw_parts;
+        use core::str::from_utf8_unchecked;
+        writeln!(f, "ErrorKind={}", (self.display)())?;
+        let bt = unsafe { self.bt.as_ptr() };
+        if bt.is_null() {
+            write!(
+                f,
+                "note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+            )?;
+        } else {
+            unsafe {
+                let len = ffi::cstring_len(bt);
+                let slice = from_raw_parts(bt, len as usize);
+                let s = from_utf8_unchecked(slice);
+                write!(f, "{}", s)?;
+                ffi::release(bt);
+            }
+        }
+
+        Ok(())
     }
 }
 
