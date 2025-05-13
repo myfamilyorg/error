@@ -1,5 +1,4 @@
 [crate]
 	lib = "error"
 [deps]
-	backtrace = { git = "https://github.com/myfamilyorg/backtrace" }
-	misc = { git = "https://github.com/myfamilyorg/misc" }
+	types = { git = "https://github.com/myfamilyorg/types" }
