@@ -3,6 +3,7 @@
 
 extern int err;
 
+#define ERR_UNKNOWN -99
 #define ERR_EFAULT -100
 #define ERR_EIO -101
 #define ERR_ENOSYS -102
